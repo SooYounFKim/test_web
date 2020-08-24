@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript" src="http://d3js.org/d3.v3.min.js"></script>
+<meta name="viewport" content="width=device-width">
+</head>
+<body>
+	<script>
+		var theData = [ 1, 2, 3, 4, 5 ];
+		var selection = d3.select("body")
+			.selectAll("p")
+			.data(theData)
+			.enter()
+			.append("p")
+			.text("Hello D3.js");
+
+		console.log(selection);
+	</script>
+</body>
+</html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>practice using mapbox</title>
+
+<script src='https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.js'></script>
+<link href='https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.css' rel='stylesheet' />
+<!-- <style>
+	body { margin: 0; padding: 0; }
+	#map { position: absolute; top: 0; bottom: 0; width: 100%; }
+</style> -->
+
+</head>
+<body>
+
+<div id='map' style='width: 100%; top:0; bottom:0; position:absolute'></div>
+<script>
+// TO MAKE THE MAP APPEAR YOU MUST
+// ADD YOUR ACCESS TOKEN FROM
+// https://account.mapbox.com
+mapboxgl.accessToken = 'pk.eyJ1Ijoic29veW91biIsImEiOiJja2U3czRhMXcxYzZ0MnhxdnFlZ3N6c2UzIn0.XC1kBXAWb8471IWcfKX2EA';
+var map = new mapboxgl.Map({
+    container: 'map',
+    style: 'mapbox://styles/mapbox/streets-v11', // stylesheet location
+    center: [128, 35], // starting position [lng, lat]
+    zoom: 9 // starting zoom
+});
+</script>
+</body>
+</html>

@@ -3,57 +3,73 @@
 <head>
 <meta charset="utf-8" />
 <title>Show drawn polygon area</title>
-<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+<!-- <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" /> -->
+
 <script src="https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.js"></script>
-<link href="https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.css" rel="stylesheet" />
+<link href="https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.css"
+	rel="stylesheet" />
 <style>
-	body { margin: 0; padding: 0; }
-	#map { position: absolute; top: 0; bottom: 0; width: 100%; }
+body {
+	margin: 0;
+	padding: 0;
+}
+
+#map {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	width: 100%;
+}
 </style>
 </head>
 <body>
-<style>
-    .calculation-box {
-        height: 75px;
-        width: 150px;
-        position: absolute;
-        bottom: 40px;
-        left: 10px;
-        background-color: rgba(255, 255, 255, 0.9);
-        padding: 15px;
-        text-align: center;
-    }
+	<!--  -->
+	<style>
+.calculation-box {
+	height: 75px;
+	width: 150px;
+	position: absolute;
+	bottom: 40px;
+	left: 10px;
+	background-color: rgba(255, 255, 255, 0.9);
+	padding: 15px;
+	text-align: center;
+}
 
-    p {
-        font-family: 'Open Sans';
-        margin: 0;
-        font-size: 13px;
-    }
+p {
+	font-family: 'Open Sans';
+	margin: 0;
+	font-size: 13px;
+}
 </style>
 
-<script src="https://api.tiles.mapbox.com/mapbox.js/plugins/turf/v3.0.11/turf.min.js"></script>
-<script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.2.0/mapbox-gl-draw.js"></script>
-<link
-    rel="stylesheet"
-    href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.2.0/mapbox-gl-draw.css"
-    type="text/css"
-/>
-<div id="map"></div>
-<div class="calculation-box">
-    <p>Draw a polygon using the draw tools.</p>
-    <div id="calculated-area"></div>
-</div>
+	<script
+		src="https://api.tiles.mapbox.com/mapbox.js/plugins/turf/v3.0.11/turf.min.js"></script>
+	<script
+		src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.2.0/mapbox-gl-draw.js"></script>
+	<link rel="stylesheet"
+		href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.2.0/mapbox-gl-draw.css"
+		type="text/css" />
+	<div id="map"></div>
+	<!--  -->
+	<div class="calculation-box">
+		<p>Draw a polygon using the draw tools.</p>
+		<div id="calculated-area"></div>
+	</div>
 
-<script>
+
+
+	<script>
 	// TO MAKE THE MAP APPEAR YOU MUST
 	// ADD YOUR ACCESS TOKEN FROM
 	// https://account.mapbox.com
-	mapboxgl.accessToken = '<your access token here>';
+	mapboxgl.accessToken = 'pk.eyJ1Ijoic29veW91biIsImEiOiJja2U3czRhMXcxYzZ0MnhxdnFlZ3N6c2UzIn0.XC1kBXAWb8471IWcfKX2EA';
     var map = new mapboxgl.Map({
         container: 'map', // container id
-        style: 'mapbox://styles/mapbox/satellite-v9', //hosted style id
-        center: [-91.874, 42.76], // starting position
-        zoom: 12 // starting zoom
+        //style: 'mapbox://styles/mapbox/satellite-v9', //hosted style id
+        style: 'mapbox://styles/mapbox/streets-v11',
+        center: [128, 38], // starting position
+        zoom: 9 // starting zoom
     });
 
     var draw = new MapboxDraw({
