@@ -16,7 +16,7 @@ svg {
 <body>
 
 <script src="https://d3js.org/d3.v3.min.js"></script>
-<script src="draw-a-line.js"></script>
+<!-- <script src="draw-a-line.js"></script> -->
 <script>
 
 var mainw = 960,
@@ -48,7 +48,7 @@ function draw(selection){
         })
         .on('mousemove', function(){ 
             if (keep) {
-                Line = line([xy0, d3.mouse(this).map(function(x){ return x - 1; })]);
+                Line = line([xy0, d3.mouse(this).map(function(x){ return x -1; })]);
                 console.log(Line);
                 path.attr('d', Line);
             }
