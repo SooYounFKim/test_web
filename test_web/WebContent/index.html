@@ -19,15 +19,15 @@ svg {
 <body>
 
 <script src="https://d3js.org/d3.v3.min.js"></script>
-<!-- <script src="draw-a-line.js"></script> -->
+<script src="draw-a-line.js"></script>
 <script>
 
 var mainw = 960,
     mainh = 500;
 
 d3.select('body').append('svg')
-    .attr('width', 1000)
-    .attr('height', 1000);
+    .attr('width', mainw)
+    .attr('height', mainh);
 
 function draw(selection){
     var xy0, 
