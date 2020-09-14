@@ -36,23 +36,14 @@
   }
   </style>
   <!-- proj4 -->
-  <script src="lib/proj4js.js"></script>
-  <!-- spatialreference -->
-  <script src="lib/defs/EPSG27200.js"></script>
-  <script src="lib/defs/EPSG4272.js"></script>
-  <script src="lib/defs/EPSG54009.js"></script>
-  <script src="lib/defs/EPSG42304.js"></script>
-  <script src="lib/defs/EPSG25833.js"></script>
-  <script src="lib/defs/EPSG27563.js"></script>
-  <script src="lib/defs/EPSG4139.js"></script>
-  <script src="lib/defs/EPSG4302.js"></script>
-  <script src="lib/defs/EPSG31285.js"></script>
-  <script src="lib/defs/EPSG900913.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.6.2/proj4.js" integrity="sha512-cgJnZ1VX2G0MAN4C5OGShwI3zHhfQ6RLriXuukhblNu+T082/ZRGoWLP/0xMKObvB6AUKdnm27hQKj8hKZPjXA==" crossorigin="anonymous"></script>
                      
   <script type="text/javascript">
   //Korea Central Belt
-  Proj4js.defs["EPSG:2097"] = "+proj=tmerc +lat_0=38 +lon_0=127 +k=1 +x_0=200000 +y_0=500000+ellps=bessel +units=m +no_defs";
-
+  proj4.defs([
+	  "EPSG:2097",
+	  "+proj=tmerc +lat_0=38 +lon_0=127 +k=1 +x_0=200000 +y_0=500000+ellps=bessel +units=m +no_defs"
+  ]); 
   var projHash = {};
  
   /**
@@ -88,8 +79,8 @@
  
   window.onload = function(){
       //변환 좌표계 초기화
-      for (var def in Proj4js.defs) {
-          projHash[def] = new Proj4js.Proj(def);    //create a Proj for each definition
+      for (var def in proj4.defs) {
+          projHash[def] = new proj4.Proj(def);    //create a Proj for each definition
       }        
   }
  
@@ -142,4 +133,3 @@
 </div>
 </body>
 </html>
-[출처] proj4 javascript library를 이용한 좌표변환 예제|작성자 Hanjoong
