@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+ 
+  <style type="text/css">
+  #container{
+   
+  }
+  #leftArea{
+    border: solid black 1px;
+    width: 350px;
+    height: 200px;
+    float: left;
+    padding: 10px;
+  }
+  #rightArea{
+    border: solid black 1px;
+    width: 350px;
+    height: 200px;
+    margin-left: 10px;
+    float: left;
+    padding: 10px;
+  }
+  #buttonUI{
+    border: solid black 1px;
+    width: 50px;
+    height: 200px;
+    margin-left: 10px;
+    float: left;
+    padding: 10px;
+  }
+  button{
+   width: 50px;
+   height: 30px;
+  }
+  </style>
+  <!-- proj4 -->
+  <script src="lib/proj4js.js"></script>
+  <!-- spatialreference -->
+  <script src="lib/defs/EPSG27200.js"></script>
+  <script src="lib/defs/EPSG4272.js"></script>
+  <script src="lib/defs/EPSG54009.js"></script>
+  <script src="lib/defs/EPSG42304.js"></script>
+  <script src="lib/defs/EPSG25833.js"></script>
+  <script src="lib/defs/EPSG27563.js"></script>
+  <script src="lib/defs/EPSG4139.js"></script>
+  <script src="lib/defs/EPSG4302.js"></script>
+  <script src="lib/defs/EPSG31285.js"></script>
+  <script src="lib/defs/EPSG900913.js"></script>
+                     
+  <script type="text/javascript">
+  //Korea Central Belt
+  Proj4js.defs["EPSG:2097"] = "+proj=tmerc +lat_0=38 +lon_0=127 +k=1 +x_0=200000 +y_0=500000+ellps=bessel +units=m +no_defs";
+
+  var projHash = {};
+ 
+  /**
+   * 선택된 좌표계로 변환
+   */
+  function convertCoord(isReverse){
+     var crsSource = document.getElementById('crsSource');
+     var projSource = projHash[crsSource.value];
+     
+     var crsDest = document.getElementById('crsDest');
+     var projDest = projHash[crsDest.value];
+     
+     var pointInput  = null;
+     var pointSource = null;
+     var pointDest   = null;
+     var coord = null;
+     if(!isReverse){
+         pointInput = document.getElementById('lonSource').value + ',' +document.getElementById('latSource').value;
+         pointSource = new Proj4js.Point(pointInput);
+         pointDest = Proj4js.transform(projSource, projDest, pointSource);
+         coord = pointDest.toShortString().split(',');
+         document.getElementById('lonDest').value = coord[0];
+         document.getElementById('latDest').value = coord[1];
+     }else{
+         pointInput = document.getElementById('lonDest').value + ',' +document.getElementById('latDest').value;
+         pointSource = new Proj4js.Point(pointInput);
+         pointDest = Proj4js.transform(projDest, projSource , pointSource);
+         coord = pointDest.toShortString().split(',');
+         document.getElementById('lonSource').value = coord[0];
+         document.getElementById('latSource').value = coord[1];
+     }
+  }
+ 
+  window.onload = function(){
+      //변환 좌표계 초기화
+      for (var def in Proj4js.defs) {
+          projHash[def] = new Proj4js.Proj(def);    //create a Proj for each definition
+      }        
+  }
+ 
+  </script>
+</head>
+
+<body>
+
+<div id="container">
+  <div id="leftArea">
+    <select id="crsSource" name="crsSource">
+        <option value="WGS84">WGS84 - long/lat:WGS84 </option>
+        <option value="EPSG:4326">EPSG:4326 - long/lat:WGS84 </option>
+        <option value="EPSG:4269">EPSG:4269 - long/lat:NAD83 </option>
+        <option value="EPSG:3785">EPSG:3785 - Google Mercator </option>
+        <option value="GOOGLE">GOOGLE - Google Mercator </option>
+        <option value="EPSG:900913">EPSG:900913 - GoogleMercator </option>
+        <option value="EPSG:102113">EPSG:102113 - Google Mercator </option>
+        <option value="EPSG:27200">EPSG:27200 - New Zealand Map Grid </option>
+        <option value="EPSG:4272">EPSG:4272 - NZGD49 </option>
+        <option value="EPSG:42304">EPSG:42304 - Atlas of Canada, LCC </option>
+        <option value="EPSG:27563">EPSG:27563 - NTF (Paris)/Lambert Sud France
+        <option value="EPSG:2097">EPSG:2097 - Korea Central Belt </option>
+    </select><br />
+    경도<input id="lonSource" name="lonSource" />degree<br />
+    위도<input id="latSource" name="latSource" />degree<br />
+  </div>
+  <div id="buttonUI">
+    <button onclick="convertCoord(false);">==></button>
+    <button onclick="convertCoord(true);"><==</button>
+  </div>
+  <div id="rightArea">
+    <select id="crsDest" name="crsDest">
+        <option value="WGS84">WGS84 - long/lat:WGS84 </option>
+        <option value="EPSG:4326">EPSG:4326 - long/lat:WGS84 </option>
+        <option value="EPSG:4269">EPSG:4269 - long/lat:NAD83 </option>
+        <option value="EPSG:3785">EPSG:3785 - Google Mercator </option>
+        <option value="GOOGLE">GOOGLE - Google Mercator </option>
+        <option value="EPSG:900913">EPSG:900913 - GoogleMercator </option>
+        <option value="EPSG:102113">EPSG:102113 - Google Mercator </option>
+        <option value="EPSG:27200">EPSG:27200 - New Zealand Map Grid </option>
+        <option value="EPSG:4272">EPSG:4272 - NZGD49 </option>
+        <option value="EPSG:42304">EPSG:42304 - Atlas of Canada, LCC </option>
+        <option value="EPSG:27563">EPSG:27563 - NTF (Paris)/Lambert Sud France
+        <option value="EPSG:2097">EPSG:2097 - Korea Central Belt </option>
+    </select><br />
+    경도<input id="lonDest" name="lonDest" />degree<br />
+    위도<input id="latDest" name="latDest" />degree<br />
+  </div>
+</div>
+</body>
+</html>
+[출처] proj4 javascript library를 이용한 좌표변환 예제|작성자 Hanjoong
