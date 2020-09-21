@@ -46,12 +46,25 @@
 						mode: 'index',
 						intersect: false
 					},
+					elements: {
+						point: {
+							pointStyle: 'line'
+						}
+					},
 					scales: {
 						yAxes: [{
 							display: true,
 							scaleLabel: {
 								display: true,
 								labelString: 'Value'
+							},
+							//y축이 0부터 시작할 수 있도록
+							ticks: {
+								min: 0,
+								max: 100,
+
+								// forces step size to be 5 units
+								//stepSize: 5
 							}
 						}]
 					}
