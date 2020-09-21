@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+	<script src="./js/Chart.js/Chart.js"></script>
+	<script src="./js/Chart.js/samples/utils.js"></script>
+	</head>
+	
+	<body>
+		<div style="width:75%;">
+			<canvas id="canvas"></canvas>
+		</div>
+	</body>
+	
+	<script>
+		var config = {
+				type: 'line',
+				data: {
+					//labels : x좌표
+					labels: [1,2,3,4,5,6,7],
+					datasets: [{
+						label: 'terrain',
+						backgroundColor: window.chartColors.white,
+						borderColor: window.chartColors.red,
+						//y좌표
+						data: [
+							randomScalingFactor(),
+							randomScalingFactor(),
+							randomScalingFactor(),
+							randomScalingFactor(),
+							randomScalingFactor(),
+							randomScalingFactor(),
+							randomScalingFactor()
+						],
+						fill: true
+					}]
+				},
+				options: {
+					responsive: true,//true : 자동 꽉 채움
+					title: {
+						display: true,
+						text: 'Chart.js Liine Chart'
+					},
+					tooltips: {
+						mode: 'index',
+						intersect: false
+					},
+					scales: {
+						yAxes: [{
+							display: true,
+							scaleLabel: {
+								display: true,
+								labelString: 'Value'
+							}
+						}]
+					}
+				}
+		};
+		
+		window.onload = function() {
+			var ctx = document.getElementById('canvas').getContext('2d');
+			window.myLiine = new Chart(ctx, config);
+		}
+	</script>
+</html>
