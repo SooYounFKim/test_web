@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+	<script src = './d3/d3.js'></script>
+</head>
+<body>
+	<script>
+	
+		var data = [4, 8, 15, 16, 23, 42];
+		
+		
+		
+		var svg = d3.select("body")
+			.append('div')
+			.style("font", "10px sans-serif")
+			.style("text-align", "right")
+			.style("color", "white");
+		
+		svg.selectAll('div')
+			.data(data)
+			.join('div')
+			.style("background", "steelblue")
+			.style("padding", "3px")
+			.style("margin", "1px")
+			.style("width", d => `${d * 10}px`)
+			.text(d => d);
+			/*;*/
+			
+		
+			
+		
+		
+		
+		/*const svg = d3.select('body').append('svg')
+	      .style("font", "10px sans-serif")
+	      .style("text-align", "right")
+	      .style("color", "white");
+		
+		svg.selectAll("svg")
+	    .data(data)
+	    .enter()
+	    .append("div")
+	      .style("background", "steelblue")
+	      .style("padding", "3px")
+	      .style("margin", "1px")
+	      .style("width", d => `${d * 10}px`)
+	      .text(d => d);*/
+		
+	</script>
+</body>
+</html>

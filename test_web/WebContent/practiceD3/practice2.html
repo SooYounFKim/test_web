@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+	<script src = './d3/d3.js'></script>
+</head>
+<body>
+	<script>
+	
+		var dataset = [ 15, 5, 32, 20, 21 ];
+		d3.select("body")          // 1
+			.append('div')
+		  .selectAll("p")          // 2
+		  .data(dataset)           // 3
+		  .enter()                 // 4
+		  .append("p")             // 5
+		  .text("hi jeongpro!");   // 6
+
+
+	</script>
+</body>
+</html>

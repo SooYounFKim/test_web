@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+	<script src = './d3/d3.js'></script>
+	<script  src="http://code.jquery.com/jquery-latest.min.js"></script>
+
+
+</head>
+<body>
+	
+	<script>
+	
+		//var data = [ 15, 5, 32, 20, 21 ];
+
+		
+		var data = [
+			{'height': 221.77002540020854,
+				'index': 0,
+				'interval': 35.00402370976944,
+				'is_visible': true,
+				'point': {
+					'lon': 127.84311820706787,
+					'lat':36.901868558710106
+				}},
+			{'height': 216.26211169282152,
+				'index': 1,
+				'interval': 35.00402370976944,
+				'is_visible': true,
+				'point': {
+					'lon': 127.84318808290531,
+					'lat':36.90162339351592
+				}},
+			{'height': 213.39944038584252,
+				'index': 2,
+				'interval': 35.00402370976944,
+				'is_visible': true,
+				'point': {
+					'lon': 127.84325795874274,
+					'lat':36.90137822753404
+				}},
+			{'height': 215.49439662717123,
+				'index': 3,
+				'interval': 35.00402370976944,
+				'is_visible': true,
+				'point': {
+					'lon': 127.84332783458017,
+					'lat':36.90113306076444
+				}},
+			{'height': 223.77422842651407,
+				'index': 4,
+				'interval': 35.00402370976944,
+				'is_visible': true,
+				'point': {
+					'lon': 127.84339208878225,
+					'lat':36.9009076174021
+				}}
+		];
+		var lineFunction = d3.line()
+		.x(function(d) { return d.point.lon; })
+		.y(function(d) { return d.height; })
+		.curve(d3.curveLinear);
+		
+		
+		var x_array = $.map(data, function(item) {
+		    return item.point.lon;
+		});
+		
+		var y_array = $.map(data, function(item) {
+		    return item.height;
+		});
+		
+		var x_scale = d3.scaleLinear()
+			.domain([d3.min(x_array),d3.max(x_array)])
+			.range([0, 1000]);
+		
+		var y_scale = d3.scaleLinear()
+			.domain([d3.min(y_array),d3.max(y_array)])
+			.range([0, 1000]);
+		
+		var x_axis = d3.axisBottom()
+			.scale(x_scale);
+		
+		var y_axis = d3.axisRight()
+		.scale(y_scale);
+
+		//그래프 그리기
+		var container = d3.select('body')
+			.append('svg')
+			.attr('width',2000)
+			.attr('height',2000);
+		
+		
+		
+		container.append('g')
+			.call(y_axis);
+		
+		container.append('g')
+			.call(x_axis);
+		
+		var lineGraph = container.append('path')
+		.attr('d', lineFunction(data))
+		.attr('stroke', 'blue')
+		.attr('stroke-width', 2)
+		.attr('fill', 'none');
+
+
+	</script>
+</body>
+</html>

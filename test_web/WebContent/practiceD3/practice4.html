@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+	<script src = './d3/d3.js'></script>
+	<script  src="http://code.jquery.com/jquery-latest.min.js"></script>
+
+
+</head>
+<body>
+	
+	<script>
+		// data
+		var data = [
+			{'height': 221.77002540020854,
+				'index': 0,
+				'interval': 35.00402370976944,
+				'is_visible': true,
+				'point': {
+					'lon': 127.84311820706787,
+					'lat':36.901868558710106
+				}},
+			{'height': 216.26211169282152,
+				'index': 1,
+				'interval': 35.00402370976944,
+				'is_visible': true,
+				'point': {
+					'lon': 127.84318808290531,
+					'lat':36.90162339351592
+				}},
+			{'height': 213.39944038584252,
+				'index': 2,
+				'interval': 35.00402370976944,
+				'is_visible': true,
+				'point': {
+					'lon': 127.84325795874274,
+					'lat':36.90137822753404
+				}},
+			{'height': 215.49439662717123,
+				'index': 3,
+				'interval': 35.00402370976944,
+				'is_visible': true,
+				'point': {
+					'lon': 127.84332783458017,
+					'lat':36.90113306076444
+				}},
+			{'height': 223.77422842651407,
+				'index': 4,
+				'interval': 35.00402370976944,
+				'is_visible': true,
+				'point': {
+					'lon': 127.84339208878225,
+					'lat':36.9009076174021
+				}}
+		];
+		
+		// set the dimensions and margins of the graph
+		var margin = {top: 20, right: 20, bottom: 30, left: 50},
+			width = 960 - margin.left - margin.right,
+			height = 500 - margin.top - margin.bottom;
+	    
+		
+		// set the ranges
+		var x = d3.scaleLinear().range([0, width]);
+		var y = d3.scaleLinear().range([height, 0]);
+	    
+		// define the line
+		var line = d3.line()
+			.x(function(d) {return x(d.point.lon)})
+			.y(function(d) {return y(d.height)});
+		
+		var svg = d3.select('body')
+			.append('svg')
+			.attr('width', width+margin.left+margin.right)
+			.attr('height', height+margin.top+margin.bottom)
+		  .append('g')
+		 	.attr('transform', 'translate('+margin.left+','+margin.top+')');
+		
+		function draw(data) {
+			data.forEach(function(d) {
+			      d.point.lon = +d.point.lon;
+			      d.height = +d.height;
+			  });
+			
+			x.domain(d3.extent(data, function(d) { return d.point.lon; }));
+			y.domain([0, d3.max(data, function(d) {
+				return d.height; 
+			})]);
+			
+			svg.append("path")
+		      .data([data])
+		      .attr("class", "line")
+		      .attr("d", line)
+		      .attr('stroke', 'blue')
+		      .attr('stroke-width', 2)
+		      .attr('fill', 'none');
+			
+			// Add the X Axis
+			svg.append("g")
+			    .attr("transform", "translate(0," + height + ")")
+			    .call(d3.axisBottom(x));
+			
+			// Add the Y Axis
+			svg.append("g")
+			    .call(d3.axisLeft(y));
+			
+		}
+		
+		draw(data);
+	</script>
+</body>
+</html>
