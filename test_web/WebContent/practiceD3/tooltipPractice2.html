@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<script src = './d3/d3.js'></script>
+	<script  src="http://code.jquery.com/jquery-latest.min.js"></script>
+</head>
+<body>
+	<script>
+	
+	    var margin = { top: 30, right: 132, bottom: 30, left: 50 },
+	        width = 960 - margin.left - margin.right,
+	        height = 500 - margin.top - margin.bottom;
+	
+	    var parseDate = d3.timeFormat("%m/%d/%Y"),
+	        bisectDate = d3.bisector(function(d) { return d.date; }).left,
+	        formatValue = d3.format(","),
+	        dateFormatter = d3.timeFormat("%m/%d/%Y");
+	
+	    var x = d3.scaleTime()
+	            .range([0, width]);
+	
+	    var y = d3.scaleLinear()
+	            .range([height, 0]);
+		
+	    /*var xAxis = d3.svg.axis()
+	        .scale(x)
+	        .orient("bottom")
+	        .tickFormat(dateFormatter);
+	
+	    var yAxis = d3.svg.axis()
+	        .scale(y)
+	        .orient("left")
+	        .tickFormat(d3.format("s"));*/
+	    
+	
+	    var line = d3.line()
+	        .x(function(d) { return x(d.date); })
+	        .y(function(d) { return y(d.likes); });
+	
+	    var svg = d3.select("body").append("svg")
+	        .attr("width", width + margin.left + margin.right)
+	        .attr("height", height + margin.top + margin.bottom)
+	        .append("g")
+	        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+	
+	    var tooltip = d3.select("body").append("div")
+	        .attr("class", "tooltip")
+	        .style("display", "none");
+	    
+	    /*$.ajax({
+	    	url: "http://localhost:8080/git/test_web/test_web/data/data.csv",
+	    	type: "GET",
+	    	dataType: "json",
+	    	success: function(data) {
+	    		console.log(data);
+	    	}
+	    });*/
+	    
+		data = [
+			{'date': '10/01/2015', 'likes': 30303},
+			{'date': '10/02/2015', 'likes': 30452},
+			{'date': '10/03/2015', 'likes': 30568},
+			{'date': '10/04/2015', 'likes': 30598},
+			{'date': '10/05/2015', 'likes': 30798},
+			{'date': '10/06/2015', 'likes': 31002},
+			{'date': '10/07/2015', 'likes': 31376},
+			{'date': '10/08/2015', 'likes': 32661},
+			{'date': '10/09/2015', 'likes': 32875},
+			{'date': '10/10/2015', 'likes': 33088},
+			{'date': '10/11/2015', 'likes': 33500},
+			{'date': '10/12/2015', 'likes': 33612},
+			{'date': '10/13/2015', 'likes': 33813},
+			{'date': '10/14/2015', 'likes': 34138},
+			{'date': '10/15/2015', 'likes': 34256},
+			{'date': '10/16/2015', 'likes': 35013}
+		];
+	    
+		console.log(data);
+        
+        data.forEach(function(d) {
+        	console.log(d.date);
+        	console.log(parseDate(d.date));
+            d.date = parseDate(d.date);
+            d.likes = +d.likes;
+        });
+
+        data.sort(function(a, b) {
+            return a.date - b.date;
+        });
+
+        x.domain([data[0].date, data[data.length - 1].date]);
+        y.domain(d3.extent(data, function(d) { return d.likes; }));
+
+        svg.append("g")
+            .attr("class", "x axis")
+            .attr("transform", "translate(0," + height + ")")
+            .call(d3.axisBottom(x));
+
+        svg.append("g")
+            .attr("class", "y axis")
+            .call(d3.axisLeft(y))
+            .append("text")
+            .attr("transform", "rotate(-90)")
+            .attr("y", 6)
+            .attr("dy", ".71em")
+            .style("text-anchor", "end")
+            .text("Number of Likes");
+
+        svg.append("path")
+            .datum(data)
+            .attr("class", "line")
+            .attr("d", line);
+
+        var focus = svg.append("g")
+            .attr("class", "focus")
+            .style("display", "none");
+
+        focus.append("circle")
+            .attr("r", 5);
+
+        var tooltipDate = tooltip.append("div")
+            .attr("class", "tooltip-date");
+
+        var tooltipLikes = tooltip.append("div");
+        tooltipLikes.append("span")
+            .attr("class", "tooltip-title")
+            .text("Likes: ");
+
+        var tooltipLikesValue = tooltipLikes.append("span")
+            .attr("class", "tooltip-likes");
+
+        svg.append("rect")
+            .attr("class", "overlay")
+            .attr("width", width)
+            .attr("height", height)
+            .on("mouseover", function() { focus.style("display", null); tooltip.style("display", null);  })
+            .on("mouseout", function() { focus.style("display", "none"); tooltip.style("display", "none"); })
+            .on("mousemove", mousemove);
+
+        function mousemove() {
+            var x0 = x.invert(d3.mouse(this)[0]),
+                i = bisectDate(data, x0, 1),
+                d0 = data[i - 1],
+                d1 = data[i],
+                d = x0 - d0.date > d1.date - x0 ? d1 : d0;
+            focus.attr("transform", "translate(" + x(d.date) + "," + y(d.likes) + ")");
+            tooltip.attr("style", "left:" + (x(d.date) + 64) + "px;top:" + y(d.likes) + "px;");
+            tooltip.select(".tooltip-date").text(dateFormatter(d.date));
+            tooltip.select(".tooltip-likes").text(formatValue(d.likes));
+        }
+		
+	    /*d3.csv("http://localhost:8080/git/test_web/test_web/data/data.csv", function(error, data) {
+	        if (error) throw error;
+	
+	        
+	        
+	    });*/
+	    
+	
+	</script>
+</body>
+</html>
