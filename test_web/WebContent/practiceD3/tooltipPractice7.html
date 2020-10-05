@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+svg {
+    border: 1px solid;
+}
+.bar {
+    fill: skyblue;
+}
+
+.bar:hover {
+    fill: blue;
+}
+
+.text {
+    fill: white;
+    font-weight:bold;
+}
+
+.grid line {
+  stroke: lightgrey;
+  stroke-opacity: 0.7;
+  shape-rendering: crispEdges;
+}
+</style>
+<svg width="500" height="300"></svg>
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script>
+// grid: x/y axis, tooltip
+var dataset = [{x:'A', y:9 }, {x:'B', y:19}, {x:'C', y:29}, {x:'D', y:39}, 
+               {x:'E', y:29}, {x:'F', y:19}, {x:'G', y:9 }];
+
+var svg = d3.select("svg");
+var width  = parseInt(svg.style("width"), 10) -30;
+var height = parseInt(svg.style("height"), 10)-20;
+
+var svgG = svg.append("g")
+    .attr("transform", "translate(30, 0)");
+          
+var xScale = d3.scaleBand()
+    .domain(dataset.map(function(d) { return d.x;} ))
+    .range([0, width]).padding(0.2);
+
+var yScale = d3.scaleLinear()
+    .domain([0, d3.max(dataset, function(d){ return d.y; })])
+    .range([height, 0]);
+    
+svgG.append("g")            
+    .attr("class", "grid")
+    .attr("transform", "translate(0," + height + ")")
+    .call(d3.axisBottom(xScale)
+        .tickSize(-height)
+    );
+    
+svgG.append("g")
+    .attr("class", "grid")
+    .call(d3.axisLeft(yScale)
+        .ticks(5)
+        .tickSize(-width)
+    );
+    
+var barG = svgG.append("g");
+    
+barG.selectAll("rect")
+    .data(dataset)
+    .enter().append("rect")
+        .attr("class", "bar")
+        .attr("height", function(d, i) {return height-yScale(d.y)})
+        .attr("width", xScale.bandwidth())
+        .attr("x", function(d, i) {return xScale(d.x)})
+        .attr("y", function(d, i) {return yScale(d.y)})
+        .on("mouseover", function() { tooltip.style("display", null); })
+        .on("mouseout",  function() {
+        	 //tooltip.style("display", "none"); 
+        })
+        .on("mousemove", function(d) {
+            var xP = d3.mouse(this)[0];
+            var yP = d3.mouse(this)[1] - 25;
+            tooltip.attr("transform", "translate(" + xP + "," + yP + ")");
+            tooltip.select("text").text(d.y);
+        });        
+    
+barG.selectAll("text")
+    .data(dataset)
+    .enter().append("text")
+    .text(function(d) {return d.y})
+        .attr("class", "text")
+        .attr("x", function(d, i) {return xScale(d.x)+xScale.bandwidth()/2})
+        .style("text-anchor", "middle")
+        .attr("y", function(d, i) {return yScale(d.y) + 15});
+
+var tooltip = svg.append("g")
+    .attr("class", "tooltip")
+    .style("display", "none");
+    
+tooltip.append("rect")
+    .attr("width", 30)
+    .attr("height", 20)
+    .attr("fill", "white");
+
+tooltip.append("text")
+    .attr("x", 15)
+    .attr("dy", "1em")
+    .style("text-anchor", "middle");
+    
+</script></html>
